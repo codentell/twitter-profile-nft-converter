@@ -3,6 +3,27 @@ import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
+
+  const handler = async( ) => {
+    try {
+      await fetch(`/api?name=codewithcorgis&pfp=https://pbs.twimg.com/profile_images/1548399625949696010/WTUc2K35.jpg`)
+        .then((response) => {
+          if (response.status === 500) {
+            return;
+          }
+  
+          return response.blob();
+        })
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          console.log(url);
+       
+        });
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -46,6 +67,11 @@ const Home: NextPage = () => {
               Discover and clone template projects showcasing thirdweb features.
             </p>
           </a>
+
+
+          <button onClick={handler}>Get image</button>
+
+
         </div>
       </main>
     </div>
