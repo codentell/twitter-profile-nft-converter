@@ -1,6 +1,6 @@
 import { ServerResponse } from 'http';
-import { getScreenshot } from "../../lib/puppeteer";
-import { getHtml } from "../../lib/html";
+import { getScreenshot } from "../lib/puppeteer";
+import { getHtml } from "../lib/html";
 
 export default async function handler(req: any, res: ServerResponse) {
   const query = req.query;
