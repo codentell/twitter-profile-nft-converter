@@ -3,6 +3,9 @@ import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
+  
+
+
 
   const handler = async( ) => {
     try {
@@ -14,7 +17,7 @@ const Home: NextPage = () => {
   
           return response.blob();
         })
-        .then((blob) => {
+        .then((blob:any) => {
           const url = URL.createObjectURL(blob);
           console.log(url);
        
