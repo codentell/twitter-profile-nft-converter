@@ -4,7 +4,7 @@ import { ThirdwebNextAuth } from "@thirdweb-dev/auth/next-auth";
 
 export const { NextAuthHandler, getUser } = ThirdwebNextAuth({
   privateKey: process.env.ADMIN_PRIVATE_KEY || "",
-  domain: "example.com",
+  domain: "https://twitter-profile-nft-converter-uta4-d0t56pri8-codewithcorgis.vercel.app",
   nextOptions: {
     providers: [
       TwitterProvider({
