@@ -6,7 +6,7 @@ import "../styles/globals.css";
 // This is the chainId your dApp will work on.
 const activeChainId = ChainId.Mainnet;
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: any) {
   return (
     <SessionProvider session={session}>  
       <ThirdwebProvider desiredChainId={activeChainId} >
