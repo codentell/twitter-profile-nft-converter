@@ -93,7 +93,8 @@ const Home: NextPage = () => {
     <Section>
       {session ? (
         <>
-          <img width="1000px" src={`https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name}?theme=${theme}&profile=${session.user.image?.replace("_normal", "")}`} />
+          
+      { session.user && <img width="1000px" src={`https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name ? session.user.name : 'placeholder'}?theme=${theme}&profile=${session.user.image?.replace("_normal", "") || ''}`} /> }
           <button onClick={() => signOut()}>Logout</button>
           <pre style={{ color: "white" }}>User: {JSON.stringify(session)}</pre>
           <button onClick={() => { setTheme('thirdweb') }}>Thirdweb</button>
