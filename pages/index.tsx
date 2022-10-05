@@ -185,10 +185,10 @@ const Home: NextPage = () => {
                     style={{ display: "grid", alignContent: "center", justifyContent: "center", width: "100%",  gridGap: "10px",  gridTemplateColumns: "1fr 1fr 1fr" }}
                   >
                     {nfts?.map((nft) => (
-                      <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                      <motion.div key={nft.metadata.id.toString()} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
 
                         <div style={{ padding: "10px", width: "500px", background: "white", borderRadius: "16px" }}>
-                          <img src={nft.metadata.image} style={{ width: "500px", borderRadius: "16px" }} />
+                          <img src={nft.metadata.image || ""} style={{ width: "500px", borderRadius: "16px" }} />
                           <h3 style={{ textAlign: "center" }}>{nft.metadata.name}</h3>
                         </div>
                       </motion.div>
