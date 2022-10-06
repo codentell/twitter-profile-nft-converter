@@ -1,10 +1,8 @@
 import type { NextPage } from "next";
 import {
   useAddress,
-  useDisconnect,
   useMetamask,
   useSDK,
-  ThirdwebNftMedia,
   useNFTCollection,
   useNFTs,
   useMintNFT,

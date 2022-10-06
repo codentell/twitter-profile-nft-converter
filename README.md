@@ -43,6 +43,13 @@ yarn dev
 - [Rive](https://github.com/rive-app/rive-react)
 - [ThirdWeb Examples](https://github.com/thirdweb-example)
 
+### Future Development
+* Comic Book Guide on how to build this 
+* Video Tutorial on how to build this
+* Powerpoint slide or pitch deck to get VC funds 
+* Send it to Product Hunt
+* More animations 
+
 
 ## Authors
 - Drew ([@corgisxyz)](https://twitter.com/corgisxyz))
