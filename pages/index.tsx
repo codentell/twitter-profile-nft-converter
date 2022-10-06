@@ -14,7 +14,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import styled from '@emotion/styled';
 import { motion, AnimatePresence } from "framer-motion";
-import  Davatar from "@davatar/react";
+import Davatar from "@davatar/react";
 import { useRive, useStateMachineInput } from '@rive-app/react-canvas';
 
 const MintButton = styled.button`
@@ -170,8 +170,46 @@ const Loader = styled.div`
 }
 `
 
-const SignOut = styled.button`
+const LogOut = styled.button`
+background: linear-gradient(to left, #40b4ff, #96d6ff);
+padding: 3px 3px 8px 3px;
+border: 1px solid transparent;
+color: white;
+font-weight: 300;
+font-size: 1.0rem;
+border-radius: 16px;
+cursor: pointer;
+height: 60px;
+width: 200px;
+
+div {
+  background: #0A062F;
+  height: 40px;
+  width: 180px;
+  font-weight: bold;
+  color: white;
+  display: grid;
+  padding: 5px;
   
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  justify-items: center;
+  border-radius: 16px;
+}
+
+:hover {
+  background:  linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-radius: 16px;
+  color: #F213A4;
+}
+
+:hover div {
+  background: #F213A4;
+}
+
+
 `
 
 
@@ -179,7 +217,6 @@ const Home: NextPage = () => {
   const sdk = useSDK();
   const address = useAddress();
   const connect = useMetamask();
-  const disconnect = useDisconnect();
   const { data: session } = useSession();
   const [theme, setTheme] = useState('');
   const nftCollection = useNFTCollection(
@@ -190,7 +227,7 @@ const Home: NextPage = () => {
     src: "twitter.riv",
     autoplay: true,
     animations: ["idle"]
-};
+  };
 
   const { data: nfts, isLoading: nftLoading } = useNFTs(nftCollection);
   const { mutate: mintNft, isLoading, error } = useMintNFT(nftCollection);
@@ -205,15 +242,15 @@ const Home: NextPage = () => {
         margin: "0 auto",
 
       }}>
-        
-        <div style={{ color: "white", fontSize: "1.2rem" , display: "grid", gridTemplateColumns: "1fr 32px 1fr", gridGap: "5px", alignItems: "center",}}>{address ? "Welcome" : ""} {address &&  <Davatar
-      size={32}
-      address={address}
-      generatedAvatarType='jazzicon' 
-    />}  {address?.slice(0,6)}...{address?.slice(address.length-4)}</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr",         gridGap: "10px" }}>
+
+        <div style={{ color: "white", fontSize: "1.2rem", display: "grid", gridTemplateColumns: "1fr 32px 1fr", gridGap: "5px", alignItems: "center", }}>{address ? "Welcome" : ""} {address && <Davatar
+          size={32}
+          address={address}
+          generatedAvatarType='jazzicon'
+        />}  {address?.slice(0, 6)}{address && "..."}{address?.slice(address.length - 4)}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridGap: "10px", alignItems: "center" }}>
           {address && <ConnectWallet >Connect Wallet</ConnectWallet>}
-          {session ? <button onClick={() => signOut()}><div>Logout</div></button> : <button onClick={() => signIn("twitter")}>Login with Twitter</button>}
+          {session && <LogOut onClick={() => signOut()}><div>Logout</div></LogOut>}
         </div>
       </div>
 
@@ -252,14 +289,22 @@ const Home: NextPage = () => {
 
           {
             address ? (
-              <div style={{display: "grid", gridTemplateRows: "1fr 1fr", color: "white", textAlign: "center"}}>
+              <div style={{ display: "grid", gridTemplateRows: "1fr 1fr", color: "white", textAlign: "center" }}>
                 <MintButton
                   disabled={isLoading}
                   onClick={() =>
                     mintNft({
                       metadata: {
                         name: session.user && session.user.name || "- thirdweb -",
-                        image: session.user && `https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name ? session.user.name : 'placeholder'}?theme=${theme}&profile=${session.user.image?.replace("_normal", "") || ''}`
+                        image: session.user && `https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name ? session.user.name : 'placeholder'}?theme=${theme}&profile=${session.user.image?.replace("_normal", "") || ''}`,
+                        attributes: [
+                          {
+                            "value": theme
+                          },
+                          {
+                            "value": session.user?.name
+                          }
+                        ]
                       },
                       to: address,
                     })
@@ -269,7 +314,7 @@ const Home: NextPage = () => {
                     Mint!
                   </div>
                 </MintButton>
-                <span>**Please use <span style={{color: "lightblue"}}>Goerli Network</span>**</span>
+                <span>**Please use <span style={{ color: "lightblue" }}>Goerli Network</span>**</span>
               </div>
             ) : (
                 <AnimatePresence initial={true} >
@@ -316,11 +361,6 @@ const Home: NextPage = () => {
               )
           }
 
-
-
-
-
-
         </Section>
         <section style={{ marginTop: "100px" }}>
           <motion.div
@@ -328,8 +368,8 @@ const Home: NextPage = () => {
             whileInView={{ opacity: 1 }}
           >
 
-            <h1 style={{ color: "white", textAlign: "center" }}>Gallery Profile NFTs</h1>
-            {/* <h1 style={{color: "white"}}>{JSON.stringify(nfts)}</h1> */}
+            <h1 style={{ color: "white", textAlign: "center" }}><span>Twitter</span>Profile NFTs Gallery </h1>
+
             {!isLoading ? (
               <div>
                 <section style={{ marginLeft: "50px", marginRight: "50px" }}>
@@ -343,12 +383,11 @@ const Home: NextPage = () => {
                       {nfts?.map((nft) => (
 
                         <motion.div key={nft.metadata.id.toString()} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
-                          <a href={`https://testnets.opensea.io/assets/goerli/0x6a324243cb69e3b27f6990673352a0817b08f6b6/${nft.metadata.id.toNumber()}`} style={{ cursor: "pointer" }}>
+                          <a href={`https://testnets.opensea.io/assets/goerli/0x6a324243cb69e3b27f6990673352a0817b08f6b6/${nft.metadata.id.toNumber()}`} style={{ cursor: "pointer", textDecoration: "none", color: "#F213A4" }} target="_blank">
                             <div style={{ padding: "10px", width: "500px", background: "white", borderRadius: "16px" }}>
-
                               <img src={nft.metadata.image || ""} style={{ width: "500px", borderRadius: "16px" }} />
                               <h3 style={{ textAlign: "center" }}>{nft.metadata.name}</h3>
-                              <h1></h1>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="none" viewBox="0 0 100 100"><path fill="#2081E2" d="M100 50C100 77.6127 77.6127 100 50 100C22.3873 100 0 77.6127 0 50C0 22.3873 22.3873 0 50 0C77.6185 0 100 22.3873 100 50Z" /><path fill="#fff" d="M24.6679 51.6801L24.8836 51.341L37.8906 30.9932C38.0807 30.6953 38.5276 30.7261 38.6714 31.0497C40.8444 35.9196 42.7194 41.9762 41.841 45.7468C41.466 47.2982 40.4386 49.3992 39.2827 51.341C39.1338 51.6236 38.9694 51.901 38.7947 52.1681C38.7125 52.2914 38.5738 52.3633 38.4248 52.3633H25.048C24.6884 52.3633 24.4778 51.9729 24.6679 51.6801Z" /><path fill="#fff" d="M82.6444 55.461V58.6819C82.6444 58.8668 82.5314 59.0312 82.367 59.1031C81.3602 59.5346 77.9132 61.1168 76.48 63.11C72.8224 68.2008 70.0279 75.48 63.7812 75.48H37.721C28.4847 75.48 21 67.9697 21 58.7024V58.4045C21 58.1579 21.2003 57.9576 21.4469 57.9576H35.9745C36.2621 57.9576 36.4727 58.2247 36.4471 58.5072C36.3443 59.4524 36.519 60.4182 36.9659 61.2966C37.8289 63.0484 39.6166 64.1426 41.5481 64.1426H48.74V58.5278H41.6303C41.2656 58.5278 41.0499 58.1065 41.2605 57.8086C41.3375 57.6904 41.4249 57.5672 41.5173 57.4285C42.1903 56.473 43.1509 54.9884 44.1064 53.2983C44.7588 52.1579 45.3906 50.9404 45.8992 49.7178C46.002 49.4969 46.0841 49.2708 46.1663 49.0499C46.305 48.6595 46.4489 48.2948 46.5516 47.9301C46.6544 47.6218 46.7365 47.2982 46.8187 46.9951C47.0602 45.9574 47.1629 44.8581 47.1629 43.7177C47.1629 43.2708 47.1424 42.8033 47.1013 42.3564C47.0807 41.8684 47.0191 41.3803 46.9574 40.8923C46.9163 40.4608 46.8393 40.0344 46.7571 39.5875C46.6544 38.9351 46.5105 38.2879 46.3461 37.6354L46.2896 37.3889C46.1663 36.9419 46.0636 36.5156 45.9198 36.0687C45.5139 34.6662 45.0465 33.2998 44.5533 32.0207C44.3735 31.5121 44.168 31.0241 43.9625 30.5361C43.6595 29.8015 43.3512 29.1337 43.0687 28.5018C42.9249 28.2141 42.8016 27.9521 42.6783 27.685C42.5396 27.3819 42.3958 27.0788 42.2519 26.7912C42.1492 26.5703 42.031 26.3648 41.9488 26.1593L41.0704 24.536C40.9471 24.3151 41.1526 24.0531 41.394 24.1199L46.8907 25.6096H46.9061C46.9163 25.6096 46.9215 25.6148 46.9266 25.6148L47.6509 25.8151L48.4472 26.0412L48.74 26.1233V22.8562C48.74 21.2791 50.0037 20 51.5654 20C52.3462 20 53.0551 20.3185 53.5637 20.8373C54.0722 21.3562 54.3907 22.0651 54.3907 22.8562V27.7056L54.9764 27.8699C55.0226 27.8854 55.0688 27.9059 55.1099 27.9367C55.2538 28.0446 55.4592 28.2038 55.7212 28.3991C55.9267 28.5634 56.1476 28.7638 56.4147 28.9693C56.9438 29.3956 57.5757 29.9453 58.2692 30.5772C58.4541 30.7364 58.6339 30.9008 58.7983 31.0652C59.6922 31.8974 60.6939 32.8734 61.6494 33.9522C61.9165 34.2553 62.1785 34.5635 62.4456 34.8871C62.7127 35.2159 62.9953 35.5395 63.2418 35.8632C63.5655 36.2947 63.9148 36.7416 64.2179 37.2091C64.3617 37.43 64.5261 37.656 64.6648 37.8769C65.0552 38.4676 65.3994 39.079 65.7282 39.6903C65.8669 39.9728 66.0107 40.281 66.134 40.5841C66.4987 41.4009 66.7864 42.2331 66.9713 43.0653C67.0278 43.2451 67.0689 43.4403 67.0895 43.615V43.6561C67.1511 43.9026 67.1717 44.1646 67.1922 44.4317C67.2744 45.2845 67.2333 46.1372 67.0484 46.9951C66.9713 47.3599 66.8686 47.704 66.7453 48.0688C66.622 48.4181 66.4987 48.7828 66.3395 49.127C66.0313 49.841 65.6665 50.5551 65.235 51.2229C65.0963 51.4695 64.9319 51.7315 64.7675 51.9781C64.5877 52.24 64.4028 52.4866 64.2384 52.7281C64.0124 53.0363 63.771 53.3599 63.5244 53.6476C63.3035 53.9507 63.0775 54.2538 62.8309 54.5209C62.4867 54.9267 62.1579 55.312 61.8137 55.6819C61.6083 55.9233 61.3874 56.1699 61.1613 56.3908C60.9405 56.6373 60.7144 56.8582 60.5089 57.0637C60.1648 57.4079 59.8771 57.675 59.6356 57.8959L59.0706 58.4148C58.9884 58.4867 58.8805 58.5278 58.7675 58.5278H54.3907V64.1426H59.8976C61.1305 64.1426 62.3018 63.7059 63.247 62.9045C63.5706 62.622 64.9833 61.3994 66.6528 59.5552C66.7093 59.4935 66.7813 59.4473 66.8635 59.4268L82.0742 55.0295C82.3568 54.9473 82.6444 55.163 82.6444 55.461Z" /></svg>
 
                             </div>
                           </a>
@@ -356,21 +395,9 @@ const Home: NextPage = () => {
 
 
                       ))}
-
-
-
-
-
-
                     </motion.div>
-
-
-
                   </AnimatePresence>
                 </section>
-
-
-
               </div>
             ) : (
                 <div style={{ display: "grid", alignContent: "center", alignItems: "center", justifyItems: "center" }}>
@@ -398,85 +425,9 @@ const Home: NextPage = () => {
                 </motion.div>
               </AnimatePresence>
               <motion.div whileHover={{ scale: 1.2, transition: { duration: 1 } }} whileTap={{ scale: 0.9 }}>
-                <div style={{width:"700px", height:"500px"}}>
-                <LogoRive/>
+                <div style={{ width: "700px", height: "500px" }}>
+                  <LogoRive />
                 </div>
-              
-                {/* <svg width="700px" height="500px" viewBox="0 0 1500 660" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-                  <defs>
-                    <linearGradient x1="0%" y1="40.32%" x2="98.5021389%" y2="59.68%" id="linearGradient-8w8p8firmt-1">
-                      <stop stop-color="#FF0091" offset="0%"></stop>
-                      <stop stop-color="#FF0087" offset="10.1902548%"></stop>
-                      <stop stop-color="#FF00B7" offset="15.2947666%"></stop>
-                      <stop stop-color="#FFBD81" offset="40.8623127%"></stop>
-                      <stop stop-color="#F3C8D7" offset="51.2539806%"></stop>
-                      <stop stop-color="#00BFFD" offset="58.0836392%"></stop>
-                      <stop stop-color="#6EA9FF" offset="83.3631119%"></stop>
-                      <stop stop-color="#B359B0" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="12.3000613%" y1="15.6651637%" x2="82.4567149%" y2="89.1050094%" id="linearGradient-8w8p8firmt-2">
-                      <stop stop-color="#9CE1FE" offset="0%"></stop>
-                      <stop stop-color="#26BDFE" offset="43.8539228%"></stop>
-                      <stop stop-color="#00A7F3" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-8w8p8firmt-3">
-                      <stop stop-color="#94E1FF" offset="0%"></stop>
-                      <stop stop-color="#26BDFE" offset="44.834866%"></stop>
-                      <stop stop-color="#00AFFF" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="9.75093285%" y1="50%" x2="90.6700725%" y2="53.3145439%" id="linearGradient-8w8p8firmt-4">
-                      <stop stop-color="#0D8BCF" offset="0%"></stop>
-                      <stop stop-color="#FFFFFF" offset="43.2805055%"></stop>
-                      <stop stop-color="#0A85C9" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-8w8p8firmt-5">
-                      <stop stop-color="#00D0E6" offset="0%"></stop>
-                      <stop stop-color="#00A3C9" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-8w8p8firmt-6">
-                      <stop stop-color="#00E0DA" offset="0%"></stop>
-                      <stop stop-color="#00CEC7" offset="32.3864451%"></stop>
-                      <stop stop-color="#00CAA9" offset="57.2136911%"></stop>
-                      <stop stop-color="#00BDB3" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-8w8p8firmt-7">
-                      <stop stop-color="#00DBDF" offset="0%"></stop>
-                      <stop stop-color="#00B4BC" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="42.8104921%" y1="-0.611711027%" x2="68.6797685%" y2="148.938809%" id="linearGradient-8w8p8firmt-8">
-                      <stop stop-color="#F213A4" offset="0%"></stop>
-                      <stop stop-color="#5204BF" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient x1="43.8593708%" y1="-0.611711027%" x2="65.9545734%" y2="148.938809%" id="linearGradient-8w8p8firmt-9">
-                      <stop stop-color="#F213A4" offset="0%"></stop>
-                      <stop stop-color="#5204BF" offset="100%"></stop>
-                    </linearGradient>
-                  </defs>
-                  <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g id="Group">
-                      <rect id="Rectangle" fill="url(#linearGradient-8w8p8firmt-1)" x="0" y="0" width="1500" height="660" rx="70"></rect>
-                      <rect id="Rectangle" fill="#000000" x="68" y="29" width="1375" height="607" rx="269"></rect>
-                      <g id="Group-34" transform="translate(134.000000, 109.000000)">
-                        <circle id="Oval" fill="url(#linearGradient-8w8p8firmt-2)" cx="200" cy="200" r="200"></circle>
-                        <path d="M337,129.281686 C326.955875,133.74354 316.161,136.748462 304.8315,138.102953 C316.399875,131.171144 325.28375,120.187244 329.458375,107.097621 C318.64075,113.517227 306.6515,118.183962 293.88875,120.699446 C283.685375,109.806604 269.114,103 253.007,103 C216.845875,103 190.273875,136.759844 198.441125,171.805886 C151.906,169.472518 110.6375,147.163249 83.007625,113.255435 C68.333875,138.444422 75.39775,171.396124 100.33175,188.082547 C91.1635,187.786608 82.5185,185.271124 74.976875,181.071062 C74.362625,207.034044 92.96075,231.323831 119.89675,236.730414 C112.013875,238.870283 103.38025,239.371103 94.59875,237.686526 C101.7195,259.950267 122.39925,276.147252 146.92375,276.602543 C123.3775,295.075984 93.7115,303.328138 64,299.822395 C88.786125,315.723441 118.236,325 149.8585,325 C253.84875,325 312.600625,237.117412 309.051625,158.295119 C319.994375,150.384434 329.4925,140.515997 337,129.281686 Z" id="Path" fill="#FFFFFF" fill-rule="nonzero"></path>
-                      </g>
-                      <g id="Group-35" transform="translate(966.240085, 109.042836)">
-                        <path d="M22.134581,159.960349 L89.3331577,41.9335343 C104.093165,16.0092251 131.630175,3.39016955e-14 161.46183,0 L290.747678,0 C320.375275,-3.33538355e-15 347.698777,15.9820716 362.221236,41.8063365 L427.087031,157.152606 C441.333641,182.486348 441.471686,213.384718 427.452008,238.844746 L362.369583,357.035784 C347.776089,383.537874 319.9182,400 289.663765,400 L160.172226,400 C129.518504,400 101.298719,383.302012 86.5436629,356.433089 L21.5337519,238.050188 C8.15295163,213.683781 8.38043314,184.117978 22.134581,159.960349 Z" id="Path-468" fill="url(#linearGradient-8w8p8firmt-3)"></path>
-                        <path d="M361.759915,129.23885 C351.71579,133.700704 340.920915,136.705626 329.591415,138.060117 C341.15979,131.128309 350.043665,120.144408 354.21829,107.054785 C343.400665,113.474391 331.411415,118.141126 318.648665,120.65661 C308.44529,109.763768 293.873915,102.957164 277.766915,102.957164 C241.60579,102.957164 215.03379,136.717008 223.20104,171.76305 C176.665915,169.429683 135.397415,147.120413 107.76754,113.212599 C93.0937903,138.401586 100.157665,171.353288 125.091665,188.039711 C115.923415,187.743772 107.278415,185.228288 99.7367903,181.028227 C99.1225403,206.991208 117.720665,231.280995 144.656665,236.687578 C136.77379,238.827447 128.140165,239.328268 119.358665,237.64369 C126.479415,259.907431 147.159165,276.104416 171.683665,276.559707 C148.137415,295.033149 118.471415,303.285302 88.7599153,299.77956 C113.54604,315.680606 142.995915,324.957164 174.618415,324.957164 C278.608665,324.957164 337.36054,237.074576 333.81154,158.252283 C344.75429,150.341598 354.252415,140.473161 361.759915,129.23885 Z" id="Path" fill="#FFFFFF" fill-rule="nonzero"></path>
-                      </g>
-                      <path d="M479.37492,170.034253 C515.79164,220.949675 557.125017,260.27159 603.375052,288 C672.750104,329.592615 750.660292,349.351186 877.390118,309.042836 C961.876669,282.170603 1022.12719,226.488975 1058.14167,141.997953 L1076.06581,492.718489 C1012.87193,418.291841 950.298532,373.655015 888.345613,358.808009 C795.416235,336.5375 732.746232,327.27588 618.949677,365.133786 C543.085306,390.37239 493.768747,420.313633 471,454.957516 L479.37492,170.034253 Z" id="Path-469" fill="url(#linearGradient-8w8p8firmt-4)" opacity="0.879789807"></path>
-                      <g id="Clipped" transform="translate(670.963388, 288.000000)"></g>
-                      <polygon id="Path-470" fill="url(#linearGradient-8w8p8firmt-5)" points="1307 387 1246.3975 422.453751 1246.3975 494.290684 1307 529 1368.64008 494.290684 1368.64008 422.453751"></polygon>
-                      <polygon id="Path-471" stroke="#979797" fill="#FFFFFF" points="1253.61029 427.139587 1253.61029 489.789919 1307 520.767179 1361.1051 489.789919 1361.1051 427.139587 1307.51879 396.428109"></polygon>
-                      <polygon id="Path-473" fill="#00B3BA" points="1259.59061 434 1259.59061 485.922025 1266.04951 488.711985 1266.04951 453.86562 1277.56359 496.341544 1282.92516 499.199368 1282.92516 419.179205 1275.03645 423.560968 1275.03645 459.189286 1266.04951 430.351676"></polygon>
-                      <polygon id="Path-474" fill="url(#linearGradient-8w8p8firmt-6)" points="1289.89487 413.931727 1307.51879 403.557483 1329.59145 416.680626 1325.54986 423.064638 1307.51879 413.311061 1296.55668 419.179205 1296.55668 453.567257 1323.73208 453.567257 1323.73208 463.044251 1296.55668 463.044251 1296.55668 506.877802 1289.89487 502.38457"></polygon>
-                      <polygon id="Path-475" fill="url(#linearGradient-8w8p8firmt-7)" points="1332.88279 419.179205 1329.59145 425.169063 1338.77299 431.500753 1338.77299 496.328747 1347.02747 491.673816 1347.02747 436.50049 1357.197 442.773948 1357.197 434"></polygon>
-                      <path d="M671.4,296.3 C669.8,292.3 672.8,288 677.1,288 L703.9,288 C706.4,288 708.6,289.5 709.6,291.8 L730.9,344.9 C731.5,346.3 731.5,347.9 730.9,349.4 L717.5,382.8 C715.5,387.9 708.2,387.9 706.1,382.8 L671.4,296.3 Z" id="Path" fill="url(#linearGradient-8w8p8firmt-8)"></path>
-                      <path d="M723.1,296.1 C721.7,292.1 724.6,288 728.8,288 L752.2,288 C754.8,288 757.1,289.6 757.9,292 L777.3,345.1 C777.8,346.4 777.8,347.9 777.3,349.2 L765.7,381.1 C763.8,386.4 756.1,386.4 754.2,381.1 L723.1,296.1 Z" id="Path" fill="url(#linearGradient-8w8p8firmt-9)"></path>
-                      <path d="M775.5,288 C771.2,288 768.2,292.3 769.8,296.3 L804.5,382.8 C806.5,387.9 813.8,387.9 815.9,382.8 L829.3,349.4 C829.9,347.9 829.9,346.3 829.3,344.9 L808,291.8 C807.1,289.5 804.8,288 802.3,288 L775.5,288 L775.5,288 Z" id="Path" fill="url(#linearGradient-8w8p8firmt-8)"></path>
-                    </g>
-                  </g>
-                </svg> */}
               </motion.div>
 
               <div>
