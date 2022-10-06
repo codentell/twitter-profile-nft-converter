@@ -421,7 +421,9 @@ const Home: NextPage = () => {
                 >
 
 
-                  <h1 style={{ color: "white", fontSize: "3rem" }}>Twitter PFP → NFT PFP</h1>
+                  <h1 style={{ color: "white", fontSize: "3rem" }}><span style={{background: "linear-gradient(to left, #40b4ff, #96d6ff)", WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent"}}>Twitter</span> PFP → <span style={{background: "linear-gradient(to left, #30D5C8, #1592B4)", WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent"}}>NFT</span> PFP</h1>
                 </motion.div>
               </AnimatePresence>
               <motion.div whileHover={{ scale: 1.2, transition: { duration: 1 } }} whileTap={{ scale: 0.9 }}>
