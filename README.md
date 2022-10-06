@@ -13,11 +13,16 @@ This showcase **nextauth** + **thirdweb sdk** to demonstate a **Twitter** profil
 Hope you enjoy! Happy Hacking!
 
 ## 🎥  Live Demo Video
+<a href="https://www.loom.com/share/fd377222f0fb420b8c5f6f00c2c29389">
+    <img style="max-width:440px;" src="https://cdn.loom.com/sessions/thumbnails/fd377222f0fb420b8c5f6f00c2c29389-with-play.gif"/>
+  </a>
 
+ [Check out loom video link  =>  Video Demo Link](https://www.loom.com/share/fd377222f0fb420b8c5f6f00c2c29389)
+
+#### Screenshots 
 ![Demo Video](./demo.png)
 
 
-Check out loom video link  => [Video Demo Link](https://www.loom.com/share/fd377222f0fb420b8c5f6f00c2c29389)
 
 
 ## Demo
