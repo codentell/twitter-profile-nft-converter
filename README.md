@@ -1,6 +1,6 @@
 
 
-![Thirdweb Header](./thirdweb.png)
+![Thirdweb Header](./guide/thirdweb.png)
 
 ##  Twitter PFP to NFT Converter Example
 
@@ -12,22 +12,24 @@ This showcase **nextauth** + **thirdweb sdk** to demonstate a **Twitter** profil
 
 Hope you enjoy! Happy Hacking!
 
-## 🎥  Live Demo Video
+## 🎥  Live Demo Video 👇
 <a href="https://www.loom.com/share/fd377222f0fb420b8c5f6f00c2c29389">
     <img style="max-width:440px;" src="https://cdn.loom.com/sessions/thumbnails/fd377222f0fb420b8c5f6f00c2c29389-with-play.gif"/>
   </a>
 
- [Check out loom video link  =>  Video Demo Link](https://www.loom.com/share/fd377222f0fb420b8c5f6f00c2c29389)
+ [Check out loom video link  👉  Video Demo Link](https://www.loom.com/share/fd377222f0fb420b8c5f6f00c2c29389)
 
-#### Screenshots 
-![Demo Video](./demo.png)
+#### 📸 Screenshots 📸
+ 
+![Screenshot 1](./guide/demo.png)
 
+![Screenshot 2](./guide/buildspace.png)
 
+![Screenshot 3](./guide/gallery.png)
 
-
-## Demo
-[Frontend Demo link](https://twitter-profile-nft-converter-uta4.vercel.app/)
-[Backend API to generate custom theme background](https://twitter-profile-nft-converter-backend-kfrs.vercel.app/)
+## Demo 🔛
+* [Frontend Demo link](https://twitter-profile-nft-converter-uta4.vercel.app/)
+* [Backend API to generate custom theme background](https://twitter-profile-nft-converter-backend-kfrs.vercel.app/)
 
 
 ### What you need to get started:
@@ -36,7 +38,7 @@ Hope you enjoy! Happy Hacking!
 * 🦊 [Metamask wallet](https://metamask.io/) 👛
 * Have **Goerli Testnet**  AND faucet ETH 🚰 in your Metamask  [right here](https://goerlifaucet.com/);
 
-### Getting Started
+### Getting Started 🎮 
 
 Create a project using this example:
 
@@ -58,7 +60,7 @@ yarn dev
 ```
 
 
-### Helpful Resource and References 
+### Helpful Resource and References 📖 
 - [Open Graph Image (og-image)](https://github.com/vercel/og-image)
 - [Rive](https://github.com/rive-app/rive-react)
 - [ThirdWeb Examples](https://github.com/thirdweb-example)
