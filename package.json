@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@davatar/react": "^1.11.1",
     "@emotion/styled": "^11.10.4",
+    "@rive-app/react-canvas": "^3.0.27",
     "@thirdweb-dev/auth": "^2.0.11",
     "@thirdweb-dev/react": "^3",
     "@thirdweb-dev/sdk": "^3",

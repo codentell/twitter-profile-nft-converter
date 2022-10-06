@@ -7,13 +7,15 @@ import {
   ThirdwebNftMedia,
   useNFTCollection,
   useNFTs,
-  useMintNFT
+  useMintNFT,
+  ConnectWallet
 } from "@thirdweb-dev/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import styled from '@emotion/styled';
 import { motion, AnimatePresence } from "framer-motion";
-
+import  Davatar from "@davatar/react";
+import { useRive, useStateMachineInput } from '@rive-app/react-canvas';
 
 const MintButton = styled.button`
 background: linear-gradient(to left, #EA60C3, #FFD580);
@@ -47,6 +49,7 @@ div {
   background: orange;
 }
 `
+
 
 
 
@@ -167,6 +170,10 @@ const Loader = styled.div`
 }
 `
 
+const SignOut = styled.button`
+  
+`
+
 
 const Home: NextPage = () => {
   const sdk = useSDK();
@@ -179,17 +186,35 @@ const Home: NextPage = () => {
     "0x6a324243cb69e3B27F6990673352a0817B08F6B6",
   );
 
+  const logoParams = {
+    src: "twitter.riv",
+    autoplay: true,
+    animations: ["idle"]
+};
+
   const { data: nfts, isLoading: nftLoading } = useNFTs(nftCollection);
   const { mutate: mintNft, isLoading, error } = useMintNFT(nftCollection);
+  const { RiveComponent: LogoRive, rive: logorive } = useRive(logoParams);
+
 
 
   return (<div>
-    <header style={{ display: "grid", background: "#F213A4", height: "50px", marginBottom: "50px", gridTemplateColumns: "4fr 2fr", alignItems: "center", textAlign: "center", justifyItems: "center" }}>
-      <div style={{ color: "white", fontSize: "1.2rem" }}>{address ? "Welcome" : ""}  {address}</div>
-      <div>
-        {address ? <button onClick={disconnect}>Disconnect Wallet</button>
-          : <button onClick={connect}>Connect Wallet</button>}
-        {session ?  <button onClick={() => signOut()}>Logout</button>:  <button onClick={() => signIn("twitter")}>Login with Twitter</button>}
+    <header style={{ background: "#F213A4", height: "70px", marginBottom: "50px", display: "grid" }}>
+      <div style={{
+        display: "grid", gridTemplateColumns: "4fr 2fr", alignItems: "center", textAlign: "center", justifyItems: "center", width: "1000px",
+        margin: "0 auto",
+
+      }}>
+        
+        <div style={{ color: "white", fontSize: "1.2rem" , display: "grid", gridTemplateColumns: "1fr 32px 1fr", gridGap: "5px", alignItems: "center",}}>{address ? "Welcome" : ""} {address &&  <Davatar
+      size={32}
+      address={address}
+      generatedAvatarType='jazzicon' 
+    />}  {address?.slice(0,6)}...{address?.slice(address.length-4)}</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr",         gridGap: "10px" }}>
+          {address && <ConnectWallet >Connect Wallet</ConnectWallet>}
+          {session ? <button onClick={() => signOut()}><div>Logout</div></button> : <button onClick={() => signIn("twitter")}>Login with Twitter</button>}
+        </div>
       </div>
 
     </header>
@@ -197,7 +222,7 @@ const Home: NextPage = () => {
     {session ? (
       <>
         <Section>
-          {session.user && <img width="1000px" src={`https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name ? `@${session.user.name.replace(" ", "")}` : 'placeholder'}?theme=${theme}&profile=${session.user.image?.replace("_normal", "") || ''}`} />}
+          {session.user ? <img width="1000px" src={`https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name ? `@${session.user.name.replace(" ", "")}` : 'placeholder'}?theme=${theme}&profile=${session.user.image?.replace("_normal", "") || ''}`} /> : <Loader />}
           <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr", gridGap: "10px", margin: "20px 0px" }}>
             <Thumbnail onClick={() => { setTheme('thirdweb') }}><svg width="50px" height="50px" viewBox="0 0 159 99" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
               <defs>
@@ -227,22 +252,25 @@ const Home: NextPage = () => {
 
           {
             address ? (
-              <MintButton
-                disabled={isLoading}
-                onClick={() =>
-                  mintNft({
-                    metadata: {
-                      name: session.user && session.user.name || "- thirdweb -",
-                      image: session.user && `https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name ? session.user.name : 'placeholder'}?theme=${theme}&profile=${session.user.image?.replace("_normal", "") || ''}`
-                    },
-                    to: address,
-                  })
-                }
-              >
-                <div>
-                  Mint!
-                </div>
-              </MintButton>
+              <div style={{display: "grid", gridTemplateRows: "1fr 1fr", color: "white", textAlign: "center"}}>
+                <MintButton
+                  disabled={isLoading}
+                  onClick={() =>
+                    mintNft({
+                      metadata: {
+                        name: session.user && session.user.name || "- thirdweb -",
+                        image: session.user && `https://twitter-profile-nft-converter-backend-kfrs.vercel.app/${session.user.name ? session.user.name : 'placeholder'}?theme=${theme}&profile=${session.user.image?.replace("_normal", "") || ''}`
+                      },
+                      to: address,
+                    })
+                  }
+                >
+                  <div>
+                    Mint!
+                  </div>
+                </MintButton>
+                <span>**Please use <span style={{color: "lightblue"}}>Goerli Network</span>**</span>
+              </div>
             ) : (
                 <AnimatePresence initial={true} >
                   <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
@@ -301,6 +329,7 @@ const Home: NextPage = () => {
           >
 
             <h1 style={{ color: "white", textAlign: "center" }}>Gallery Profile NFTs</h1>
+            {/* <h1 style={{color: "white"}}>{JSON.stringify(nfts)}</h1> */}
             {!isLoading ? (
               <div>
                 <section style={{ marginLeft: "50px", marginRight: "50px" }}>
@@ -308,16 +337,23 @@ const Home: NextPage = () => {
                     <motion.div
 
 
-                      style={{ display: "grid", alignContent: "center", justifyContent: "center", width: "100%", gridGap: "10px", gridTemplateColumns: "1fr 1fr 1fr" }}
+                      style={{ display: "grid", alignContent: "center", justifyContent: "center", width: "100%", gridGap: "10px", gridTemplateColumns: "repeat(3, 1fr)" }}
                     >
-                      {nfts?.map((nft) => (
-                        <motion.div key={nft.metadata.id.toString()} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
 
-                          <div style={{ padding: "10px", width: "500px", background: "white", borderRadius: "16px" }}>
-                            <img src={nft.metadata.image || ""} style={{ width: "500px", borderRadius: "16px" }} />
-                            <h3 style={{ textAlign: "center" }}>{nft.metadata.name}</h3>
-                          </div>
+                      {nfts?.map((nft) => (
+
+                        <motion.div key={nft.metadata.id.toString()} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
+                          <a href={`https://testnets.opensea.io/assets/goerli/0x6a324243cb69e3b27f6990673352a0817b08f6b6/${nft.metadata.id.toNumber()}`} style={{ cursor: "pointer" }}>
+                            <div style={{ padding: "10px", width: "500px", background: "white", borderRadius: "16px" }}>
+
+                              <img src={nft.metadata.image || ""} style={{ width: "500px", borderRadius: "16px" }} />
+                              <h3 style={{ textAlign: "center" }}>{nft.metadata.name}</h3>
+                              <h1></h1>
+
+                            </div>
+                          </a>
                         </motion.div>
+
 
                       ))}
 
@@ -362,8 +398,11 @@ const Home: NextPage = () => {
                 </motion.div>
               </AnimatePresence>
               <motion.div whileHover={{ scale: 1.2, transition: { duration: 1 } }} whileTap={{ scale: 0.9 }}>
-
-                <svg width="700px" height="500px" viewBox="0 0 1500 660" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                <div style={{width:"700px", height:"500px"}}>
+                <LogoRive/>
+                </div>
+              
+                {/* <svg width="700px" height="500px" viewBox="0 0 1500 660" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                   <defs>
                     <linearGradient x1="0%" y1="40.32%" x2="98.5021389%" y2="59.68%" id="linearGradient-8w8p8firmt-1">
                       <stop stop-color="#FF0091" offset="0%"></stop>
@@ -437,7 +476,7 @@ const Home: NextPage = () => {
                       <path d="M775.5,288 C771.2,288 768.2,292.3 769.8,296.3 L804.5,382.8 C806.5,387.9 813.8,387.9 815.9,382.8 L829.3,349.4 C829.9,347.9 829.9,346.3 829.3,344.9 L808,291.8 C807.1,289.5 804.8,288 802.3,288 L775.5,288 L775.5,288 Z" id="Path" fill="url(#linearGradient-8w8p8firmt-8)"></path>
                     </g>
                   </g>
-                </svg>
+                </svg> */}
               </motion.div>
 
               <div>
