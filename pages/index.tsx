@@ -236,7 +236,7 @@ const Home: NextPage = () => {
 
 
   return (<div>
-    <header style={{ background: "#F213A4", height: "70px", marginBottom: "50px", display: "grid" }}>
+    <header style={{ background: "linear-gradient(to left, #F213A4, #5204BF)", height: "70px", marginBottom: "50px", display: "grid" }}>
       <div style={{
         display: "grid", gridTemplateColumns: "4fr 2fr", alignItems: "center", textAlign: "center", justifyItems: "center", width: "1000px",
         margin: "0 auto",
@@ -460,11 +460,11 @@ const Home: NextPage = () => {
           <defs>
             <rect id="path-7ljq7x_8ti-1" x="1.42108547e-14" y="0" width="158.6" height="98.6"></rect>
             <linearGradient x1="30.8225053%" y1="30.4747192%" x2="99.8269376%" y2="88.1691901%" id="linearGradient-7ljq7x_8ti-3">
-              <stop stop-color="#F213A4" offset="0%"></stop>
-              <stop stop-color="#5204BF" offset="100%"></stop>
+              <stop stopColor="#F213A4" offset="0%"></stop>
+              <stop stopColor="#5204BF" offset="100%"></stop>
             </linearGradient>
           </defs>
-          <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="Page-2" stroke="none" strokeWidth="1" fill="none" fill-rule="evenodd">
             <g id="Clipped">
               <mask id="mask-7ljq7x_8ti-2" fill="white">
                 <use xlinkHref="#path-7ljq7x_8ti-1"></use>
