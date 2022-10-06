@@ -383,7 +383,7 @@ const Home: NextPage = () => {
                       {nfts?.map((nft) => (
 
                         <motion.div key={nft.metadata.id.toString()} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>
-                          <a href={`https://testnets.opensea.io/assets/goerli/0x6a324243cb69e3b27f6990673352a0817b08f6b6/${nft.metadata.id.toNumber()}`} style={{ cursor: "pointer", textDecoration: "none", color: "#F213A4" }} target="_blank">
+                          <a href={`https://testnets.opensea.io/assets/goerli/0x6a324243cb69e3b27f6990673352a0817b08f6b6/${nft.metadata.id.toNumber()}`} style={{ cursor: "pointer", textDecoration: "none", color: "#F213A4" }} target="_blank" rel="noreferrer">
                             <div style={{ padding: "10px", width: "500px", background: "white", borderRadius: "16px" }}>
                               <img src={nft.metadata.image || ""} style={{ width: "500px", borderRadius: "16px" }} />
                               <h3 style={{ textAlign: "center" }}>{nft.metadata.name}</h3>

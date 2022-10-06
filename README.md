@@ -1,14 +1,52 @@
-## Getting Started
+
+
+![Thirdweb Header](https://twitter-profile-nft-converter-backend-kfrs.vercel.app/thirdweb?profile=https://pbs.twimg.com/profile_images/1560091074403745793/KuYVZP51_400x400.jpg)
+
+##  Twitter PFP to NFT Converter Example
+
+This guide will show you how to create a Twitter PFP to NFT Converter. 
+Had a blast building this twitter profile!
+
+## Demo
+
+
+### What you need to get started:
+ 💚 [**Node. js**](https://nodejs.org/en/) installed on your computer 💻 **node >=10.0.0** or **yarn >=1.0.0**
+[Yarn]
+🦊 [Metamask wallet](https://metamask.io/) 👛
+Have **Goerli Testnet**  AND faucet ETH 🚰 in your Metamask  [right here](https://goerlifaucet.com/);
+
+### Getting Started
 
 Create a project using this example:
 
 ```bash
-npx thirdweb create --template next-typescript-starter
+cd twitter-profile-nft-converter
 ```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install 
+or 
+yarn install 
+```
 
-On `pages/_app.tsx`, you'll find our `ThirdwebProvider` wrapping your app to set up our React SDK.
+
+```bash
+npm run dev
+or 
+yarn dev
+```
+
+
+### Helpful Resource and References 
+- [Open Graph Image (og-image)](https://github.com/vercel/og-image)
+- [Rive](https://github.com/rive-app/rive-react)
+- [ThirdWeb Examples](https://github.com/thirdweb-example)
+
+
+## Authors
+- Drew ([@corgisxyz)](https://twitter.com/corgisxyz))
+
 
 ## Learn More
 
