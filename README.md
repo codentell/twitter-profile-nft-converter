@@ -4,17 +4,24 @@
 
 ##  Twitter PFP to NFT Converter Example
 
-This guide will show you how to create a Twitter PFP to NFT Converter. 
-Had a blast building this twitter profile!
+This guide will show you how to create a **Twitter** PFP to **NFT** Converter. 
+
+Had a blast building this **Twitter** profile nft project!
+
+This showcase **nextauth** + **thirdweb sdk** to demonstate a **Twitter** profile pfp with custom themes background (web3 companies like **Developer DAO**, **buildspace** and **Dark mode Comics**) into a **NFT** using custom animations from  using **rive** 
+
+Hope you enjoy! Happy Hacking!
 
 ## Demo
+[Frontend Demo link](https://twitter-profile-nft-converter-uta4.vercel.app/)
+[Backend API to generate custom theme background](https://twitter-profile-nft-converter-backend-kfrs.vercel.app/)
 
 
 ### What you need to get started:
- 💚 [**Node. js**](https://nodejs.org/en/) installed on your computer 💻 **node >=10.0.0** or **yarn >=1.0.0**
-[Yarn]
-🦊 [Metamask wallet](https://metamask.io/) 👛
-Have **Goerli Testnet**  AND faucet ETH 🚰 in your Metamask  [right here](https://goerlifaucet.com/);
+* 💚 [**Node. js**](https://nodejs.org/en/) installed on your computer 💻 **node >=10.0.0** or **yarn >=1.0.0**
+[Yarn]()
+* 🦊 [Metamask wallet](https://metamask.io/) 👛
+* Have **Goerli Testnet**  AND faucet ETH 🚰 in your Metamask  [right here](https://goerlifaucet.com/);
 
 ### Getting Started
 
@@ -48,7 +55,8 @@ yarn dev
 * Video Tutorial on how to build this
 * Powerpoint slide or pitch deck to get VC funds 
 * Send it to Product Hunt
-* More animations 
+* More animations and interactions 
+* Make it into a blockchain 
 
 
 ## Authors
