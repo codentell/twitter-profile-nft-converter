@@ -12,6 +12,14 @@ This showcase **nextauth** + **thirdweb sdk** to demonstate a **Twitter** profil
 
 Hope you enjoy! Happy Hacking!
 
+## 🎥  Live Demo Video
+
+![Demo Video](./demo.png)
+
+
+Check out loom video link  => [Video Demo Link](https://www.loom.com/share/fd377222f0fb420b8c5f6f00c2c29389)
+
+
 ## Demo
 [Frontend Demo link](https://twitter-profile-nft-converter-uta4.vercel.app/)
 [Backend API to generate custom theme background](https://twitter-profile-nft-converter-backend-kfrs.vercel.app/)
@@ -49,6 +57,8 @@ yarn dev
 - [Open Graph Image (og-image)](https://github.com/vercel/og-image)
 - [Rive](https://github.com/rive-app/rive-react)
 - [ThirdWeb Examples](https://github.com/thirdweb-example)
+- [Next auth](https://next-auth.js.org/)
+- [Backend Code for the Twitter NFT converter](https://github.com/codentell/twitter-profile-nft-converter-backend)
 
 ### Future Development
 * Comic Book Guide on how to build this 
