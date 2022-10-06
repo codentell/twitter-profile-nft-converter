@@ -1,6 +1,6 @@
 
 
-![Thirdweb Header](https://twitter-profile-nft-converter-backend-kfrs.vercel.app/thirdweb?profile=https://pbs.twimg.com/profile_images/1560091074403745793/KuYVZP51_400x400.jpg)
+![Thirdweb Header](./thirdweb.png)
 
 ##  Twitter PFP to NFT Converter Example
 
